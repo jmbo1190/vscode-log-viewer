@@ -9,7 +9,9 @@
       "sourceMap": true,
       "strict": true,
       "skipLibCheck": true,
-      "types": ["node", "vscode"]
+      "types": ["node", "vscode"],
+      // The esModuleInterop flag in TypeScript enables compatibility with CommonJS modules, making it possible to use the default import syntax (import React from 'react') even if the module technically uses module.exports.
+      "esModuleInterop": true 
     },
     "include": ["src/**/*.ts", "src/**/*.tsx"],
     "exclude": ["node_modules"]
