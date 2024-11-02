@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import * as ReactDOM from 'react-dom';
+// import * as ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';  // Import from react-dom/client
+
 
 const App: React.FC = () => {
   const [content, setContent] = useState('');
@@ -39,4 +41,11 @@ const App: React.FC = () => {
   );
 };
 
-ReactDOM.render(<App />, document.getElementById('root'));
+//ReactDOM.render(<App />, document.getElementById('root'));
+
+// Use createRoot to render the component
+const rootElement = document.getElementById('root');
+if (rootElement) {
+  const root = createRoot(rootElement);  // Create root
+  root.render(<App />);  // Render the App component
+}
