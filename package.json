@@ -1,0 +1,53 @@
+{
+  "name": "vscode-log-viewer",
+  "version": "1.0.0",
+  "description": "VScode Log Viewer",
+  "main": "./out/extension.js",
+  "scripts": {
+    "build": "tsc -p .",
+    "vscode:prepublish": "tsc -p .",
+    "webpack": "webpack --config webpack.config.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@types/vscode": "^1.95.0",
+    "@vscode/test-web": "^0.0.63",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.6.3",
+    "webpack": "^5.96.1",
+    "webpack-cli": "^5.1.4"
+  },
+  "engines": {
+    "vscode": "^1.76.0"
+  },
+  "activationEvents": [
+    "*"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "logReader.startWithFile",
+        "title": "Open Log Reader",
+        "category": "Log Reader"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "logReader.startWithFile",
+          "when": "resourceLangId == log || resourceLangId == plaintext",
+          "group": "navigation"
+        }
+      ]
+    }
+  }
+}
