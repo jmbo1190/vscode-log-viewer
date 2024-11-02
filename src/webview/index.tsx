@@ -1,33 +1,41 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 import * as ReactDOM from 'react-dom';
 
-const App = () => {
-  const [log, setLog] = React.useState<string[]>([]);
+const App: React.FC = () => {
+  const [content, setContent] = useState('');
 
-  React.useEffect(() => {
+  useEffect(() => {
+    // Listen for messages from the extension
     const handleMessage = (event: MessageEvent) => {
       const message = event.data;
 
-      if (message.command === 'newChunk') {
-        setLog((prevLog) => [...prevLog, message.chunk]);
-      } else if (message.command === 'endOfFile') {
-        setLog((prevLog) => [...prevLog, '--- End of File ---']);
+      switch (message.command) {
+        case 'newChunk':
+          // Append new chunk to content
+          setContent(prevContent => prevContent + message.chunk);
+          break;
+        case 'endOfFile':
+          setContent(prevContent => prevContent + '\n--- End of File ---');
+          break;
+        case 'restoreContent':
+          // Restore full content when switching back to this webview
+          setContent(message.content);
+          break;
+        default:
+          break;
       }
     };
 
     window.addEventListener('message', handleMessage);
 
+    // Cleanup listener on component unmount
     return () => {
       window.removeEventListener('message', handleMessage);
     };
   }, []);
 
   return (
-    <div style={{ fontFamily: 'monospace', whiteSpace: 'pre-wrap' }}>
-      {log.map((line, index) => (
-        <div key={index}>{line}</div>
-      ))}
-    </div>
+    <div id="root" style={{ fontFamily: 'monospace', whiteSpace: 'pre-wrap' }}>{content}</div>
   );
 };
 
